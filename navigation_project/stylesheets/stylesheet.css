@@ -1,0 +1,88 @@
+@import url("http://meyerweb.com/eric/tools/css/reset/reset.css");
+
+body {
+  background-color: rgba(0,0,0,0.8);
+  font-family: Arial;
+}
+
+main {
+  margin: 0 50px 20px 50px;
+}
+
+nav {
+  background-color: #fff;
+  padding: 25px 20px 30px 20px;
+  margin-bottom: 20px;
+}
+
+section {
+  background-color: #fff;
+  padding: 35px 15px;
+  display: none;
+}
+
+section.visible {
+  display: block;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 24px;
+  float: left;
+  padding-right: 30px;
+}
+
+nav li {
+  display: inline-block;
+}
+
+nav li + li {
+  padding-left: 12px;
+}
+
+nav a {
+  font-family: "Times New Roman";
+  font-size: 18px;
+  position: relative;
+  bottom: -4px;
+  text-decoration: underline;
+  color: #f0f;
+}
+
+nav a.selected {
+  color: #fa0;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 22px;
+  padding-bottom: 15px;
+}
+
+p {
+  font-size: 14px;
+  font-family: "Times New Roman";
+  padding-bottom: 15px;
+  display: block;
+}
+
+section div {
+  text-align: center;
+}
+
+section figure {
+  border: 1px solid #999;
+  padding: 10px;
+  display: inline-block;
+  margin: 0 auto 20px auto;
+}
+
+img {
+  width: 640px;
+}
+
+figcaption {
+  font-family: "Times New Roman";
+  padding-top: 8px;
+  text-align: left;
+}
