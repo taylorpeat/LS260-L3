@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>Image Processor</title>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="javascripts/image_processor.js"></script>
+    <script src="javascripts/brightness.js"></script>
+    <script src="javascripts/saturation.js"></script>
+    <script src="javascripts/invert.js"></script>
+    <script src="javascripts/horizontal_flip.js"></script>
+    <script src="javascripts/vertical_flip.js"></script>
+  </head>
+  <body>
+    <canvas></canvas>
+    <br>
+    <form>
+      <dl>
+        <dt>Brightness</dt>
+        <dd><input data-method="brightness" type="range" min:"-50" max:"50"><span>0%</span></dd>
+        <dt>Saturation</dt>
+        <dd><input data-method="saturation" type="range" min:"-100" max:"100"><span>0%</span></dd>
+      </dl>
+      <ul>
+        <li><a href="#" data-method="invert">Invert</a></li>
+        <li><a href="#" data-method="horizontal_flip">Horizontal Flip</a></li>
+        <li><a href="#" data-method="vertical_flip">Vertical Flip</a></li>
+      </ul>
+    </form>
+  </body>
+</html> 
