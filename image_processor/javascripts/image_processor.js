@@ -45,7 +45,6 @@ $(function() {
   });
 
   for ( worker in workers ) {
-    console.log(workers[worker]);
     workers[worker].addEventListener("message", setImg);
   };
 });
@@ -62,6 +61,7 @@ function initialImgSetup() {
 }
 
 function setImg(data) {
+  console.log(data);
   ctx.putImageData(data.data, 0, 0);
 }
 
