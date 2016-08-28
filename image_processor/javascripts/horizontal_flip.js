@@ -1,12 +1,11 @@
-onmessage = function(e) {
-  e.data.img.data = flipImgData(e.data.img);
-  postMessage(e.data.img);
+onmessage = function(message) {
+  postMessage( flipImgData(message) );
 }
 
-function flipImgData(img) {
-  var data = img.data,
-      rows = img.height,
-      row_length = img.width * 4;
+function flipImgData(message) {
+  var rows = message.data.height,
+      row_length = message.data.width * 4,
+      data = message.data.raw_image_data;
 
   for ( var y = 0; y < rows; y++ ) {
     var new_row = [];

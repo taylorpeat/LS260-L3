@@ -1,14 +1,14 @@
-onmessage = function(e) {
-  e.data.img.data = adjustBrightness(e.data.img.data, e.data.brightness, e.data.old_percentage);
-  postMessage(e.data.img);
+onmessage = function(message) {
+  postMessage(adjustBrightness(message));
 }
 
-function adjustBrightness(data, brightness, old_percentage) {
-  var bright_change = brightness - old_percentage;
+function adjustBrightness(message) {
+  var bright_change = message.data.param - message.data.old_param,
+      data = message.data.raw_image_data;
+
   for ( pixel in data ) {
     if ((+pixel + 1) % 4 === 0) { continue }
-    data[pixel] = data[pixel] * (100 + bright_change) / 100;
-    if (data[pixel] > 255) { data[pixel] = 255 }
+    data[pixel] = data[pixel] + bright_change / 100 * 255;
   }
 
   return data;

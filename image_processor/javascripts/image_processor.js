@@ -1,7 +1,15 @@
+// create array in workers, transfer it to image data in setImg function
+
 var workers = {},
     canvas,
     ctx,
-    image = document.createElement("img");
+    image = document.createElement("img"),
+    params = {
+      brightness: 0,
+      saturation: 0,
+    },
+    current_image,
+    raw_image_data = [];
 
 image.src = "images/675px-Dülmen,_Göversheide_--_2015_--_7718-22.jpg";
 
@@ -18,22 +26,19 @@ $(function() {
 
   $("form").on("change", function(e) {
     var worker_name = $(e.target).attr("data-method"),
-        old_percentage = +$(e.target).siblings("span").eq(0).html().slice(0, -1),
-        percentage;
+        new_param = +$(e.target).val();
 
-    if ( worker_name === "brightness" ) {
-      percentage = e.target.value - 50;
-    } else {
-      percentage = (e.target.value - 50) * 2;
-    }
+    $(e.target).siblings("span").eq(0).html(e.target.value + "%");
 
-    $(e.target).siblings("span").eq(0).html(percentage + "%");
     workers[worker_name].postMessage({
-      img: getImg(),
-      brightness: +$("[data-method='brightness']").val() - 50,
-      saturation: (+$("[data-method='saturation']").val() - 50) * 2,
-      old_percentage: old_percentage
+      raw_image_data: raw_image_data,
+      width: current_image.width,
+      height: current_image.height,
+      param: new_param,
+      old_param: params[worker_name]
     });
+
+    params[worker_name] = new_param;
   });
 
   $("form").on("click", "a", function(e) {
@@ -41,15 +46,23 @@ $(function() {
 
     var worker_name = $(e.target).attr("data-method");
 
-    workers[worker_name].postMessage({ img: getImg() });
+    workers[worker_name].postMessage({
+      raw_image_data: raw_image_data,
+      width: current_image.width,
+      height: current_image.height
+    });
   });
 
   for ( worker in workers ) {
-    workers[worker].addEventListener("message", setImg);
+    if (["brightness", "saturation"].includes(worker)) {
+      workers[worker].addEventListener("message", setImgAndData);
+    } else {
+      workers[worker].addEventListener("message", setImgAndData);
+    }
   };
 });
 
-
+å
 
 function initialImgSetup() {
   canvas = $("canvas")[0];
@@ -58,13 +71,27 @@ function initialImgSetup() {
   canvas.height = image.height;
 
   ctx.drawImage(image, 0, 0);
+  createImgDataArray();
+}
+
+function createImgDataArray() {
+  current_image = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+  for ( pixel in current_image.data ) {
+    raw_image_data[pixel] = current_image.data[pixel];
+  }
 }
 
 function setImg(data) {
-  console.log(data);
-  ctx.putImageData(data.data, 0, 0);
+
+  for ( pixel in current_image.data ) {
+    current_image.data[pixel] = data[pixel];
+  }
+
+  ctx.putImageData(current_image, 0, 0);
 }
 
-function getImg() {
-  return ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+function setImgAndData(data) {
+  raw_image_data = data.data;
+  setImg(raw_image_data);
 }
